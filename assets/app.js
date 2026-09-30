@@ -34,6 +34,16 @@
     return n;
   };
 
+  // Escopo de corpo: permite isolar o app do CSS do site quando o app e
+  // embutido nas paginas do portfolio (o mesmo arquivo roda no repo solto).
+  document.body.classList.add("fc-app");
+
+  // O endereco do Gerador de Flashcards muda conforme onde o app roda: dentro
+  // do site ele e um caminho relativo, no repositorio solto e a URL do site.
+  // Por convencao do site, link para o proprio dominio abre na mesma aba.
+  var LINK_GERADOR = document.body.getAttribute("data-gerador") ||
+    "https://www.elizeubarbosa.com.br/ferramentas/gerador-flashcards.html";
+
   /* ===================== Persistencia ===================== */
 
   function carregarJson(chave, padrao) {
@@ -266,7 +276,7 @@
 
     var g = statsGlobais();
 
-    var hero = el("section", "hero");
+    var hero = el("section", "fc-hero");
     hero.innerHTML =
       '<h1>Flashcards da BNCC para o Ensino Fundamental e Médio</h1>' +
       '<p>Mais de <b>' + g.total.toLocaleString("pt-BR") + '</b> cartões de pergunta e resposta, ' +
@@ -364,14 +374,9 @@
     });
     btns.appendChild(b1);
 
-    var b2 = el("button", "btn btn-neutro", "Como gerar PDF para imprimir");
+    var b2 = el("a", "btn btn-neutro", "Como gerar PDF para imprimir");
+    b2.href = LINK_GERADOR;
     b2.title = "Abre o Gerador de Flashcards, onde voce importa qualquer CSV da pasta csv/";
-    b2.addEventListener("click", function () {
-      window.open(
-        "https://elizeubarbosa.com.br/ferramentas/gerador-flashcards.html",
-        "_blank", "noopener"
-      );
-    });
     btns.appendChild(b2);
 
     alvo.appendChild(painel);
@@ -838,47 +843,55 @@
     ano.decks.forEach(function (d) { indiceDecks[d.id] = d; });
   });
 
+  // Liga um elemento apenas se ele existir na pagina. O app roda tanto no
+  // repositorio quanto embutido no site, e cada versao tem um conjunto
+  // proprio de controles na barra superior.
+  function ligar(sel, evento, fn) {
+    var alvo = $(sel);
+    if (alvo) alvo.addEventListener(evento, fn);
+  }
+
   // Barra superior
   var inputBusca = $("#busca-input");
   var temporizador = null;
-  inputBusca.addEventListener("input", function () {
+  function irParaBusca() {
+    if (!inputBusca) return;
+    var v = inputBusca.value.trim();
+    if (v.length >= 2) irRota("#/busca?q=" + encodeURIComponent(v));
+  }
+  ligar("#busca-input", "input", function () {
     clearTimeout(temporizador);
-    temporizador = setTimeout(function () {
-      var v = inputBusca.value.trim();
-      if (v.length >= 2) irRota("#/busca?q=" + encodeURIComponent(v));
-    }, 350);
+    temporizador = setTimeout(irParaBusca, 350);
   });
-  inputBusca.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      var v = inputBusca.value.trim();
-      if (v.length >= 2) irRota("#/busca?q=" + encodeURIComponent(v));
-    }
+  ligar("#busca-input", "keydown", function (e) {
+    if (e.key === "Enter") irParaBusca();
   });
 
-  $("#tema-btn").addEventListener("click", function () {
+  ligar("#tema-btn", "click", function () {
     prefs.tema = prefs.tema === "escuro" ? "claro" : "escuro";
     salvarPrefs();
     aplicarTema();
   });
 
-  $("#inicio-btn").addEventListener("click", function () { irRota("#/"); });
-  $("#csv-btn").addEventListener("click", function () {
-    window.location.href = "csv/";
-  });
+  ligar("#inicio-btn", "click", function () { irRota("#/"); });
+  ligar("#csv-btn", "click", function () { window.location.href = "csv/"; });
 
   function aplicarTema() {
     document.documentElement.setAttribute("data-tema", prefs.tema);
-    $("#tema-btn").textContent = prefs.tema === "escuro" ? "☀" : "☾";
-    $("#tema-btn").setAttribute("aria-label", prefs.tema === "escuro" ? "Mudar para tema claro" : "Mudar para tema escuro");
+    var b = $("#tema-btn");
+    if (!b) return;
+    b.textContent = prefs.tema === "escuro" ? "☀" : "☾";
+    b.setAttribute("aria-label", prefs.tema === "escuro" ? "Mudar para tema claro" : "Mudar para tema escuro");
   }
 
-  $("#modal-cancelar").addEventListener("click", function () {
-    $("#modal-fundo").classList.remove("aberto");
+  ligar("#modal-cancelar", "click", function () {
+    var f = $("#modal-fundo");
+    if (f) f.classList.remove("aberto");
   });
 
   window.addEventListener("hashchange", render);
   window.addEventListener("keydown", function (e) {
-    if (e.key === "/" && document.activeElement !== inputBusca) {
+    if (inputBusca && e.key === "/" && document.activeElement !== inputBusca) {
       e.preventDefault();
       inputBusca.focus();
     }
@@ -888,8 +901,11 @@
   render();
 
   if (!catalogo.length) {
-    $("#app").innerHTML =
-      '<div class="erro-carga">O catálogo não carregou. Rode <code>python3 ferramentas/gerar_site.py</code> ' +
-      "e recarregue a página.</div>";
+    var alvo = $("#app");
+    if (alvo) {
+      alvo.innerHTML =
+        '<div class="erro-carga">O catálogo não carregou. Rode <code>python3 ferramentas/gerar_site.py</code> ' +
+        "e recarregue a página.</div>";
+    }
   }
 })();

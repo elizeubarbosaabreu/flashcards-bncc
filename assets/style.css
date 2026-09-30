@@ -1,6 +1,48 @@
 /* Flashcards BNCC - estilo do site de estudos
    Paleta escura por padrao, com tema claro alternavel. */
 
+/* ---------- Integracao com o site ----------
+   O app e embutido no site, que ja aplica o proprio reset e um padding no
+   body para a navbar global. Estes overrides mantem o app isolado: escopo
+   proprio de corpo, fundo e tipografia, sem afetar as demais paginas. */
+body.fc-app {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  background-image: none;
+  color: var(--text);
+  line-height: 1.55;
+  padding-top: 0;
+}
+
+[data-tema="claro"] body.fc-app { background: #eef2f9; }
+
+body.fc-app main#main-content { padding: 0; }
+body.fc-app h1, body.fc-app h2, body.fc-app h3 { color: var(--text); }
+body.fc-app p { color: inherit; }
+body.fc-app a { color: var(--brand); }
+
+/* Envoltorio do app: largura maxima e respiro, independente do .container do site. */
+.container-app { max-width: 1200px; margin: 0 auto; padding: 26px 20px 70px; }
+
+/* O rodape e o breadcrumb ficam com o visual do site. */
+body.fc-app .rodape { text-align: center; }
+body.fc-app .rodape p { max-width: 78ch; margin: 0 auto; }
+body.fc-app .rodape-links { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+body.fc-app .rodape a { color: var(--brand); text-decoration: none; font-weight: 600; }
+body.fc-app .rodape a:hover { text-decoration: underline; }
+
+/* O breadcrumb do site ja tem estilo; so garantimos o espaçamento. */
+body.fc-app .breadcrumbs { margin: 0 auto 4px; }
+
+/* Banner de anuncios injetado pelos scripts do site: nao herda o tema do app. */
+body.fc-app .ad-banner-wrap { margin: 16px auto 4px; }
+body.fc-app .ad-banner-wrap .ad-banner-inner {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+}
+
+/* O botao de CSV virou link: precisa de box-sizing proprio. */
+a.icone-btn { display: grid; place-items: center; text-decoration: none; }
+
 :root {
   --bg: #0b1120;
   --bg-2: #0f172a;
@@ -53,8 +95,7 @@ a { color: inherit; }
   background: color-mix(in srgb, var(--bg-2) 88%, transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
-}
-.topo-inner {
+}.topo-inner {
   max-width: 1200px; margin: 0 auto; padding: 12px 20px;
   display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
 }
@@ -86,10 +127,12 @@ a { color: inherit; }
 }
 .icone-btn:hover { border-color: var(--brand); transform: translateY(-1px); }
 
-main { max-width: 1200px; margin: 0 auto; padding: 26px 20px 70px; }
+/* O <main> nao leva layout: quem centraliza e o .container-app, para o app
+   poder ser embutido numa pagina que ja tenha container proprio. */
+body.fc-app main { max-width: none; margin: 0; padding: 0; }
 
 /* ---------- Hero ---------- */
-.hero {
+.fc-hero {
   border-radius: 22px; padding: 30px 32px; margin-bottom: 26px;
   background:
     radial-gradient(900px 380px at 12% -10%, rgba(99, 102, 241, .30), transparent 60%),
@@ -97,8 +140,8 @@ main { max-width: 1200px; margin: 0 auto; padding: 26px 20px 70px; }
     var(--surface);
   border: 1px solid var(--line);
 }
-.hero h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.15; letter-spacing: -.03em; }
-.hero p { color: var(--muted); margin-top: 9px; max-width: 66ch; }
+.fc-hero h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.15; letter-spacing: -.03em; }
+.fc-hero p { color: var(--muted); margin-top: 9px; max-width: 66ch; }
 .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 .stat {
   background: color-mix(in srgb, var(--bg-2) 70%, transparent);
@@ -324,7 +367,7 @@ mark { background: color-mix(in srgb, var(--warn) 40%, transparent); color: inhe
 
 /* ---------- Impressao ---------- */
 @media print {
-  .topo, .rodape, .controles, .atalhos, .filtros-jogo, .btn, .hero, .acoes-topo { display: none !important; }
+  .topo, .rodape, .controles, .atalhos, .filtros-jogo, .btn, .fc-hero, .acoes-topo { display: none !important; }
   body { background: #fff; color: #000; }
   main { max-width: none; padding: 0; }
   .cara { border: 1px solid #000; position: static; transform: none !important; page-break-inside: avoid; }
