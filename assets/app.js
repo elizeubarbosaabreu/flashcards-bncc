@@ -376,6 +376,9 @@
 
     var b2 = el("a", "btn btn-neutro", "Como gerar PDF para imprimir");
     b2.href = LINK_GERADOR;
+    // O Gerador e outra ferramenta: por convencao do site, abre em nova aba.
+    b2.target = "_blank";
+    b2.rel = "noopener noreferrer";
     b2.title = "Abre o Gerador de Flashcards, onde voce importa qualquer CSV da pasta csv/";
     btns.appendChild(b2);
 
