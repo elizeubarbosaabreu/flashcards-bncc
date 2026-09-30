@@ -1,0 +1,15 @@
+# Logs e temporarios
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# node
+node_modules/
+package-lock.json
+
+# Ambiente
+.env
+.venv/
+venv/

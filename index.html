@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="escuro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards da BNCC — Ensino Fundamental e Médio</title>
+<meta name="description" content="Milhares de flashcards de estudo da Educação Básica, alinhados à BNCC e organizados por série (6º ao 9º ano do Ensino Fundamental e 1º ao 3º ano do Ensino Médio) e por disciplina. Com repetição espaçada, busca e progresso salvo.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0b1120">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎴</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="pular" href="#app">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="topo-inner">
+    <a class="marca" href="#/" id="inicio-btn">
+      <span class="logo" aria-hidden="true">🎴</span>
+      <span>Flashcards da BNCC<small>Fundamental e Médio · estudo com repetição espaçada</small></span>
+    </a>
+
+    <div class="busca-topo">
+      <label class="sr" for="busca-input">Buscar em todos os cartões</label>
+      <input id="busca-input" type="search" placeholder="Buscar em todos os cartões…  (tecla /)" autocomplete="off">
+    </div>
+
+    <div class="acoes-topo">
+      <button class="icone-btn" id="csv-btn" title="Abrir a pasta de arquivos CSV" aria-label="Abrir os arquivos CSV">📥</button>
+      <button class="icone-btn" id="tema-btn" title="Alternar tema" aria-label="Alternar tema">☀</button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+  <div class="carregando">Carregando catálogo…</div>
+</main>
+
+<footer class="rodape">
+  <div class="rodape-links">
+    <a href="#/">Início</a>
+    <a href="csv/">Arquivos CSV</a>
+    <a href="https://elizeubarbosa.com.br/ferramentas/gerador-flashcards.html" target="_blank" rel="noopener">Gerador de Flashcards (PDF)</a>
+  </div>
+  <p>Material de estudo alinhado à Base Nacional Comum Curricular, com fins educativos e de revisão.
+     Todo o conteúdo funciona offline, direto no navegador — nada é enviado para servidores.</p>
+</footer>
+
+<div class="modal-fundo" id="modal-fundo" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+  <div class="modal">
+    <h3 id="modal-titulo">Confirmar</h3>
+    <p id="modal-texto"></p>
+    <div class="modal-acoes">
+      <button class="btn btn-neutro" id="modal-cancelar">Cancelar</button>
+      <button class="btn btn-primario" id="modal-confirmar">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script src="data/catalog.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+/* Educação Física - 1º ano | gerado por ferramentas/gerar_site.py a partir de csv/EM1-EducacaoFisica.csv | nao edite a mao: altere o CSV e regenere. */
+window.FC_DECK_EM1_EDF = {
+  id: "EM1-edf",
+  ano: "EM1",
+  anoCurto: "1º ano",
+  anoCompleto: "1º ano do Ensino Médio",
+  etapa: "EM",
+  materia: "Educação Física",
+  area: "Linguagens e Matemática",
+  cor: "#f59e0b",
+  emoji: "⚽",
+  csv: "csv/EM1-EducacaoFisica.csv",
+  cards: [
+    ["Quais são exemplos de esportes coletivos e de campo e taco?", "Futebol, basquete, vôlei e handebol são coletivos. Beisebol e softbol são de campo e taco."],
+    ["Como a ginástica contribui para a saúde?", "Desenvolve força, flexibilidade, equilíbrio e coordenação, melhorando a qualidade de vida."],
+    ["Quais valores as lutas e artes marciais podem desenvolver?", "Respeito, disciplina, autocontrole e superação pessoal."],
+    ["Como as danças se relacionam com a cultura corporal?", "Expressam valores, identidades e tradições de grupos e povos por meio do movimento."],
+    ["Qual é a relação entre corpo, movimento e qualidade de vida?", "A prática de atividades físicas regulares previne doenças e melhora o bem-estar físico e mental."],
+    ["O que é aptidão física?", "É a capacidade do corpo de realizar atividades com eficiência, ligada às capacidades cardiorrespiratória, força e flexibilidade."],
+    ["Como o esporte é tratado na mídia e no alto rendimento?", "A mídia espetaculariza e comercializa o esporte, valorizando a competição e os resultados."],
+    ["O que é o lazer e o tempo livre?", "É o direito ao uso do tempo livre com atividades prazerosas, de descanso e cultura corporal."],
+  ]
+};
